@@ -10,12 +10,13 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { 
   Heart, Plane, Briefcase, Crown, Calendar, Clock, 
-  ArrowLeft, CheckCircle, Fuel, Users, ArrowRight
+  ArrowLeft, CheckCircle, Fuel, Users, ArrowRight, Settings
 } from "lucide-react";
 import { rentalCategories, rentalVehicles, RentalVehicle, contactInfo } from "@/lib/data";
 
 interface RentalsViewProps {
   onBack: () => void;
+  onRentalSelect: (rental: RentalVehicle) => void;
 }
 
 const categoryIcons: Record<string, React.ElementType> = {
@@ -27,14 +28,14 @@ const categoryIcons: Record<string, React.ElementType> = {
   Clock: Clock,
 };
 
-export function RentalsView({ onBack }: RentalsViewProps) {
+export function RentalsView({ onBack, onRentalSelect }: RentalsViewProps) {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedRental, setSelectedRental] = useState<RentalVehicle | null>(null);
   const [inquiryOpen, setInquiryOpen] = useState(false);
+  const [inquiryRental, setInquiryRental] = useState<RentalVehicle | null>(null);
   const [inquirySubmitted, setInquirySubmitted] = useState(false);
 
   const filteredRentals = selectedCategory
-    ? rentalVehicles.filter((r) => r.category.toLowerCase().replace("-", "") === selectedCategory)
+    ? rentalVehicles.filter((r) => r.category.toLowerCase().replace("-", "") === selectedCategory || r.category === selectedCategory)
     : rentalVehicles;
 
   const handleInquirySubmit = async (e: React.FormEvent) => {
@@ -45,6 +46,11 @@ export function RentalsView({ onBack }: RentalsViewProps) {
       setInquiryOpen(false);
       setInquirySubmitted(false);
     }, 2000);
+  };
+
+  const openInquiry = (rental: RentalVehicle) => {
+    setInquiryRental(rental);
+    setInquiryOpen(true);
   };
 
   return (
@@ -105,13 +111,14 @@ export function RentalsView({ onBack }: RentalsViewProps) {
           {filteredRentals.map((rental) => (
             <Card
               key={rental.id}
-              className="bg-[#1A1C1F] border-border hover:border-[#C6A969]/30 transition-all overflow-hidden group"
+              className="bg-[#1A1C1F] border-border hover:border-[#C6A969]/30 transition-all overflow-hidden group cursor-pointer"
+              onClick={() => onRentalSelect(rental)}
             >
               {/* Image */}
               <div className="relative aspect-[16/10] bg-[#0F0F10]">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="w-16 h-16 rounded-full bg-[#1A1C1F] border border-[#C6A969]/30 flex items-center justify-center">
-                    <Crown className="w-7 h-7 text-[#C6A969]/50" />
+                    <Settings className="w-7 h-7 text-[#C6A969]/50" />
                   </div>
                 </div>
                 
@@ -124,10 +131,17 @@ export function RentalsView({ onBack }: RentalsViewProps) {
                     Available
                   </Badge>
                 )}
+
+                {/* Hover Overlay */}
+                <div className="absolute inset-0 bg-[#0F0F10]/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <Button className="bg-[#C6A969] text-[#0F0F10] hover:bg-[#D4B87A]">
+                    View Details
+                  </Button>
+                </div>
               </div>
 
               <CardContent className="p-6">
-                <h3 className="text-xl font-semibold text-white mb-2">
+                <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-[#C6A969] transition-colors">
                   {rental.name}
                 </h3>
                 <p className="text-sm text-[#8B8F96] mb-4">
@@ -154,31 +168,10 @@ export function RentalsView({ onBack }: RentalsViewProps) {
                   </div>
                 </div>
 
-                {/* Features */}
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {rental.features.slice(0, 3).map((feature, index) => (
-                    <Badge
-                      key={index}
-                      variant="outline"
-                      className="border-border text-[#8B8F96] text-xs"
-                    >
-                      {feature}
-                    </Badge>
-                  ))}
-                  {rental.features.length > 3 && (
-                    <Badge variant="outline" className="border-border text-[#8B8F96] text-xs">
-                      +{rental.features.length - 3} more
-                    </Badge>
-                  )}
-                </div>
-
                 {/* Actions */}
-                <div className="flex gap-3">
+                <div className="flex gap-3" onClick={(e) => e.stopPropagation()}>
                   <Button
-                    onClick={() => {
-                      setSelectedRental(rental);
-                      setInquiryOpen(true);
-                    }}
+                    onClick={() => openInquiry(rental)}
                     className="flex-1 bg-[#C6A969] text-[#0F0F10] hover:bg-[#D4B87A]"
                   >
                     Inquire
@@ -212,9 +205,9 @@ export function RentalsView({ onBack }: RentalsViewProps) {
           ) : (
             <>
               <h2 className="text-xl font-semibold text-white mb-2">Rental Inquiry</h2>
-              {selectedRental && (
+              {inquiryRental && (
                 <p className="text-sm text-[#8B8F96] mb-6">
-                  {selectedRental.name} - {selectedRental.make} {selectedRental.model}
+                  {inquiryRental.name} - {inquiryRental.make} {inquiryRental.model}
                 </p>
               )}
               <form onSubmit={handleInquirySubmit} className="space-y-4">
