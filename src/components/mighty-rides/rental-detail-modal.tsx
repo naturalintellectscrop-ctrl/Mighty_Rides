@@ -5,7 +5,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { X, Phone, ChevronLeft, ChevronRight, CheckCircle, Calendar, Users, Fuel, Settings } from "lucide-react";
+import { X, Phone, ChevronLeft, ChevronRight, CheckCircle, Calendar, Users, Fuel, Settings, Settings2 } from "lucide-react";
 
 interface RentalDetailModalProps {
   rental: RentalVehicle | null;
@@ -28,9 +28,9 @@ export function RentalDetailModal({ rental, open, onOpenChange }: RentalDetailMo
   const terms = [
     "Valid driver's license required",
     "Security deposit may apply",
-    "Comprehensive insurance included",
-    "24/7 roadside assistance",
-    "Fuel policy: Full-to-full",
+    "Comprehensive insurance available",
+    "24/7 support available",
+    "Flexible rental terms",
     "Additional driver options available",
   ];
 
@@ -64,7 +64,7 @@ export function RentalDetailModal({ rental, open, onOpenChange }: RentalDetailMo
         <div className="relative aspect-[16/9] bg-[#1A1C1F]">
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-24 h-24 rounded-full bg-[#0F0F10] border border-[#C6A969]/30 flex items-center justify-center">
-              <Settings className="w-10 h-10 text-[#C6A969]/50" />
+              <Settings2 className="w-10 h-10 text-[#C6A969]/50" />
             </div>
           </div>
           
@@ -92,20 +92,16 @@ export function RentalDetailModal({ rental, open, onOpenChange }: RentalDetailMo
 
         {/* Content */}
         <div className="p-6 md:p-8">
-          {/* Pricing Cards */}
-          <div className="grid grid-cols-3 gap-4 mb-8">
-            <div className="p-4 rounded-xl bg-[#1A1C1F] border border-border text-center">
-              <p className="text-2xl md:text-3xl font-bold text-white">${rental.dailyRate}</p>
-              <p className="text-sm text-[#8B8F96]">Daily Rate</p>
-            </div>
-            <div className="p-4 rounded-xl bg-[#1A1C1F] border border-border text-center">
-              <p className="text-2xl md:text-3xl font-bold text-white">${rental.weeklyRate || "—"}</p>
-              <p className="text-sm text-[#8B8F96]">Weekly Rate</p>
-            </div>
-            <div className="p-4 rounded-xl bg-[#1A1C1F] border border-border text-center">
-              <p className="text-2xl md:text-3xl font-bold text-white">${rental.monthlyRate || "—"}</p>
-              <p className="text-sm text-[#8B8F96]">Monthly Rate</p>
-            </div>
+          {/* Pricing Notice */}
+          <div className="bg-[#1A1C1F] rounded-xl p-6 border border-border mb-8">
+            <h3 className="text-lg font-semibold text-white mb-2">Rental Rates</h3>
+            <p className="text-[#C6A969] text-lg font-medium mb-3">
+              Contact us for pricing and availability
+            </p>
+            <p className="text-[#8B8F96] text-sm">
+              Rates vary based on rental duration, occasion, and specific requirements. 
+              Contact us for a personalized quote.
+            </p>
           </div>
 
           {/* Description */}

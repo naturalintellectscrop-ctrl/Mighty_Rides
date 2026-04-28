@@ -2,7 +2,7 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Star, Quote } from "lucide-react";
+import { Shield, Award, Clock, Users } from "lucide-react";
 import { testimonials } from "@/lib/data";
 
 export function TestimonialsSection() {
@@ -16,84 +16,76 @@ export function TestimonialsSection() {
         {/* Section Header */}
         <div className="text-center mb-16">
           <Badge variant="outline" className="border-[#C6A969]/30 text-[#C6A969] mb-4">
-            Testimonials
+            Why Choose Us
           </Badge>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
-            Trusted by Excellence
+            Built on Trust
           </h2>
           <p className="text-[#8B8F96] text-lg max-w-2xl mx-auto">
-            Hear from our distinguished clients who have experienced 
-            the Mighty Rides difference.
+            Mighty Rides is a premium automotive dealership committed to quality, 
+            transparency, and exceptional service.
           </p>
         </div>
 
-        {/* Testimonials Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {testimonials.slice(0, 3).map((testimonial, index) => (
-            <Card
-              key={testimonial.id}
-              className="bg-[#0F0F10] border-border hover:border-[#C6A969]/20 transition-all duration-300"
-            >
-              <CardContent className="p-6">
-                {/* Quote Icon */}
-                <Quote className="w-8 h-8 text-[#C6A969]/30 mb-4" />
-                
-                {/* Rating */}
-                <div className="flex gap-1 mb-4">
-                  {Array.from({ length: testimonial.rating }).map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-[#C6A969] text-[#C6A969]" />
-                  ))}
-                </div>
-
-                {/* Content */}
-                <p className="text-[#8B8F96] mb-6 leading-relaxed">
-                  &ldquo;{testimonial.content}&rdquo;
-                </p>
-
-                {/* Author */}
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#C6A969] to-[#B8A05A] flex items-center justify-center">
-                    <span className="text-[#0F0F10] font-bold text-lg">
-                      {testimonial.name.charAt(0)}
-                    </span>
-                  </div>
-                  <div>
-                    <p className="font-semibold text-white">{testimonial.name}</p>
-                    <p className="text-sm text-[#8B8F96]">
-                      {testimonial.role}, {testimonial.company}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Vehicle */}
-                <div className="mt-4 pt-4 border-t border-border/50">
-                  <p className="text-xs text-[#8B8F96]">
-                    Purchased: <span className="text-white">{testimonial.vehiclePurchased}</span>
-                  </p>
-                </div>
+        {/* Trust Values */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          {[
+            { 
+              icon: Shield, 
+              title: "Trust & Integrity", 
+              description: "Transparent transactions and honest advice in every interaction." 
+            },
+            { 
+              icon: Award, 
+              title: "Premium Quality", 
+              description: "Carefully selected vehicles and premium service standards." 
+            },
+            { 
+              icon: Clock, 
+              title: "Reliable Service", 
+              description: "Consistent, dependable service you can count on." 
+            },
+            { 
+              icon: Users, 
+              title: "Client Focus", 
+              description: "Your satisfaction drives everything we do." 
+            },
+          ].map((value, index) => (
+            <Card key={index} className="bg-[#0F0F10] border-border">
+              <CardContent className="p-6 text-center">
+                <value.icon className="w-10 h-10 text-[#C6A969] mx-auto mb-4" />
+                <h4 className="font-semibold text-white mb-2">{value.title}</h4>
+                <p className="text-sm text-[#8B8F96]">{value.description}</p>
               </CardContent>
             </Card>
           ))}
         </div>
 
-        {/* Trust Indicators */}
-        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
-          {[
-            { value: "500+", label: "Happy Clients" },
-            { value: "$50M+", label: "Value Sold" },
-            { value: "15+", label: "Years Experience" },
-            { value: "100%", label: "Satisfaction Rate" },
-          ].map((stat, index) => (
-            <div
-              key={index}
-              className="text-center p-6 rounded-xl bg-[#0F0F10] border border-border"
-            >
-              <p className="text-3xl md:text-4xl font-bold text-[#C6A969] mb-2">
-                {stat.value}
-              </p>
-              <p className="text-sm text-[#8B8F96]">{stat.label}</p>
+        {/* Services Overview */}
+        <div className="bg-[#0F0F10] rounded-2xl border border-border overflow-hidden">
+          <div className="p-8 md:p-12 text-center">
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-8">
+              Our Core Services
+            </h3>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                "Luxury Car Sales",
+                "Premium Car Rentals", 
+                "Vehicle Servicing & Maintenance",
+                "Body Kits & Customization",
+                "Spare Parts",
+                "Vehicle Sourcing",
+              ].map((service, index) => (
+                <div
+                  key={index}
+                  className="flex items-center gap-3 p-4 rounded-xl bg-[#1A1C1F] border border-border"
+                >
+                  <div className="w-2 h-2 rounded-full bg-[#C6A969]" />
+                  <span className="text-white font-medium">{service}</span>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </section>

@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { 
   Heart, Plane, Briefcase, Crown, Calendar, Clock, 
-  ArrowLeft, CheckCircle, Fuel, Users, ArrowRight, Settings
+  ArrowLeft, CheckCircle, Settings, Phone
 } from "lucide-react";
 import { rentalCategories, rentalVehicles, RentalVehicle, contactInfo } from "@/lib/data";
 
@@ -70,8 +70,8 @@ export function RentalsView({ onBack, onRentalSelect }: RentalsViewProps) {
             Premium Rentals
           </h1>
           <p className="text-[#8B8F96] text-lg max-w-2xl">
-            From weddings to corporate events, our luxury fleet is at your service.
-            Professional, reliable, and unforgettable.
+            Luxury car rentals for weddings, corporate events, VIP transport, and more.
+            Contact us for rates and availability.
           </p>
         </div>
 
@@ -152,20 +152,17 @@ export function RentalsView({ onBack, onRentalSelect }: RentalsViewProps) {
                   {rental.description}
                 </p>
 
-                {/* Pricing */}
-                <div className="grid grid-cols-3 gap-3 mb-6">
-                  <div className="p-3 rounded-lg bg-[#0F0F10] text-center">
-                    <p className="text-lg font-bold text-white">${rental.dailyRate}</p>
-                    <p className="text-xs text-[#8B8F96]">Daily</p>
-                  </div>
-                  <div className="p-3 rounded-lg bg-[#0F0F10] text-center">
-                    <p className="text-lg font-bold text-white">${rental.weeklyRate || "—"}</p>
-                    <p className="text-xs text-[#8B8F96]">Weekly</p>
-                  </div>
-                  <div className="p-3 rounded-lg bg-[#0F0F10] text-center">
-                    <p className="text-lg font-bold text-white">${rental.monthlyRate || "—"}</p>
-                    <p className="text-xs text-[#8B8F96]">Monthly</p>
-                  </div>
+                {/* Features */}
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {rental.features.slice(0, 3).map((feature, index) => (
+                    <Badge
+                      key={index}
+                      variant="outline"
+                      className="border-border text-[#8B8F96] text-xs"
+                    >
+                      {feature}
+                    </Badge>
+                  ))}
                 </div>
 
                 {/* Actions */}

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft, Shield, Award, Clock, Users, MapPin, Phone, Mail, CheckCircle } from "lucide-react";
-import { contactInfo, teamMembers } from "@/lib/data";
+import { contactInfo } from "@/lib/data";
 
 interface AboutViewProps {
   onBack: () => void;
@@ -28,7 +28,7 @@ export function AboutView({ onBack }: AboutViewProps) {
             About Mighty Rides
           </h1>
           <p className="text-[#8B8F96] text-lg max-w-2xl">
-            East Africa&apos;s premier destination for luxury vehicles and premium automotive services.
+            A premium automotive dealership based in Kampala, Uganda.
           </p>
         </div>
 
@@ -39,25 +39,22 @@ export function AboutView({ onBack }: AboutViewProps) {
               Our Story
             </Badge>
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">
-              A Legacy of Excellence
+              Premium Automotive Services
             </h2>
             <div className="space-y-4 text-[#8B8F96] leading-relaxed">
               <p>
-                Founded with a vision to bring world-class automotive services to East Africa, 
-                Mighty Rides has grown from a small dealership to the region&apos;s most trusted 
-                name in premium vehicles.
+                Mighty Rides is a premium automotive dealership located in Kampala, Uganda. 
+                We specialize in luxury vehicle sales, premium car rentals, and comprehensive 
+                automotive services for clients across East Africa.
               </p>
               <p>
-                Our journey began over 15 years ago, driven by a passion for exceptional automobiles 
-                and a commitment to delivering unparalleled customer experiences. Today, we serve 
-                a distinguished clientele including business leaders, diplomats, and discerning 
-                individuals who demand nothing but the best.
+                Our commitment to quality and customer satisfaction drives everything we do. 
+                From helping you find the perfect vehicle to providing expert maintenance 
+                services, we are your trusted automotive partner.
               </p>
               <p>
-                Our success is built on three pillars: an unwavering commitment to quality, 
-                transparent business practices, and relationships that extend far beyond the sale. 
-                Every vehicle in our inventory is hand-selected, thoroughly inspected, and 
-                backed by our reputation.
+                We offer a curated selection of vehicles, along with vehicle sourcing services 
+                to help you find exactly what you&apos;re looking for.
               </p>
             </div>
           </div>
@@ -68,7 +65,7 @@ export function AboutView({ onBack }: AboutViewProps) {
                 <div className="w-24 h-24 rounded-full bg-[#C6A969]/10 flex items-center justify-center mx-auto mb-4">
                   <Award className="w-12 h-12 text-[#C6A969]/50" />
                 </div>
-                <p className="text-[#8B8F96]">Premium Showroom</p>
+                <p className="text-[#8B8F96]">Premium Dealership</p>
               </div>
             </div>
           </div>
@@ -84,22 +81,22 @@ export function AboutView({ onBack }: AboutViewProps) {
               { 
                 icon: Shield, 
                 title: "Trust & Integrity", 
-                description: "Transparent transactions and honest advice. We build relationships, not just sales." 
+                description: "Transparent transactions and honest advice." 
               },
               { 
                 icon: Award, 
-                title: "Excellence", 
-                description: "Only the finest vehicles and services. Quality is non-negotiable." 
+                title: "Premium Quality", 
+                description: "Carefully selected vehicles and services." 
               },
               { 
                 icon: Clock, 
                 title: "Reliability", 
-                description: "Consistent, dependable service you can count on, every time." 
+                description: "Consistent, dependable service." 
               },
               { 
                 icon: Users, 
                 title: "Client Focus", 
-                description: "Your satisfaction drives everything we do. We listen, understand, deliver." 
+                description: "Your satisfaction is our priority." 
               },
             ].map((value, index) => (
               <Card key={index} className="bg-[#1A1C1F] border-border text-center">
@@ -113,22 +110,20 @@ export function AboutView({ onBack }: AboutViewProps) {
           </div>
         </div>
 
-        {/* Why Choose Us */}
+        {/* What We Offer */}
         <div className="bg-[#1A1C1F] rounded-2xl border border-border overflow-hidden mb-20">
           <div className="p-8 md:p-12">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">
-              Why Choose Mighty Rides
+              Our Services
             </h2>
             <div className="grid md:grid-cols-2 gap-6">
               {[
-                "Hand-selected premium vehicles",
-                "Thorough inspection process",
-                "Competitive pricing",
-                "Flexible financing options",
-                "Professional after-sales support",
-                "Genuine parts and service",
-                "Global sourcing network",
-                "Trusted by 500+ clients",
+                "Luxury vehicle sales",
+                "Premium car rentals",
+                "Vehicle servicing & maintenance",
+                "Spare parts",
+                "Body kits & customization",
+                "Vehicle sourcing services",
               ].map((item, index) => (
                 <div key={index} className="flex items-center gap-3">
                   <CheckCircle className="w-5 h-5 text-[#C6A969] shrink-0" />
@@ -139,26 +134,11 @@ export function AboutView({ onBack }: AboutViewProps) {
           </div>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
-          {[
-            { value: "15+", label: "Years Experience" },
-            { value: "500+", label: "Vehicles Sold" },
-            { value: "$50M+", label: "Total Sales Value" },
-            { value: "100%", label: "Client Satisfaction" },
-          ].map((stat, index) => (
-            <div key={index} className="text-center p-8 rounded-xl bg-[#1A1C1F] border border-border">
-              <p className="text-4xl md:text-5xl font-bold text-[#C6A969] mb-2">{stat.value}</p>
-              <p className="text-sm text-[#8B8F96]">{stat.label}</p>
-            </div>
-          ))}
-        </div>
-
         {/* Contact Info */}
         <div className="bg-[#1A1C1F] rounded-2xl border border-border overflow-hidden mb-20">
           <div className="p-8 md:p-12">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">
-              Visit Our Showroom
+              Visit Our Location
             </h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="flex items-start gap-4">

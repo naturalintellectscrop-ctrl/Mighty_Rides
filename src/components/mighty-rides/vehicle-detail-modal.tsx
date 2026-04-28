@@ -1,16 +1,14 @@
 "use client";
 
-import { Vehicle } from "@/lib/data";
+import { Vehicle, contactInfo } from "@/lib/data";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { 
   X, Phone, Fuel, Gauge, Settings, Calendar, 
-  Palette, Car, ChevronLeft, ChevronRight,
-  Share2, Heart
+  Palette, Car, ChevronLeft, ChevronRight, Settings2
 } from "lucide-react";
-import { contactInfo } from "@/lib/data";
 
 interface VehicleDetailModalProps {
   vehicle: Vehicle | null;
@@ -22,6 +20,9 @@ export function VehicleDetailModal({ vehicle, open, onOpenChange }: VehicleDetai
   if (!vehicle) return null;
 
   const formatPrice = (price: number) => {
+    if (price === 0) {
+      return "Contact for Price";
+    }
     return new Intl.NumberFormat("en-UG", {
       style: "currency",
       currency: "USD",
@@ -30,8 +31,7 @@ export function VehicleDetailModal({ vehicle, open, onOpenChange }: VehicleDetai
   };
 
   const specs = [
-    { icon: Gauge, label: "Mileage", value: `${vehicle.mileage.toLocaleString()} km` },
-    { icon: Settings, label: "Engine", value: vehicle.engine },
+    { icon: Settings2, label: "Engine", value: vehicle.engine },
     { icon: Settings, label: "Transmission", value: vehicle.transmission },
     { icon: Fuel, label: "Fuel Type", value: vehicle.fuelType },
     { icon: Calendar, label: "Year", value: vehicle.year.toString() },
@@ -41,7 +41,7 @@ export function VehicleDetailModal({ vehicle, open, onOpenChange }: VehicleDetai
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-5xl w-[95vw] max-h-[95vh] overflow-y-auto bg-[#0F0F10] border-border p-0">
+      <DialogContent className="max-w-4xl w-[95vw] max-h-[95vh] overflow-y-auto bg-[#0F0F10] border-border p-0">
         {/* Header */}
         <div className="sticky top-0 z-10 bg-[#0F0F10]/95 backdrop-blur-lg border-b border-border px-6 py-4">
           <div className="flex items-center justify-between">
@@ -51,22 +51,14 @@ export function VehicleDetailModal({ vehicle, open, onOpenChange }: VehicleDetai
                 {vehicle.model} {vehicle.year}
               </h2>
             </div>
-            <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" className="text-[#8B8F96] hover:text-white">
-                <Share2 className="w-5 h-5" />
-              </Button>
-              <Button variant="ghost" size="icon" className="text-[#8B8F96] hover:text-white">
-                <Heart className="w-5 h-5" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => onOpenChange(false)}
-                className="text-[#8B8F96] hover:text-white"
-              >
-                <X className="w-5 h-5" />
-              </Button>
-            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => onOpenChange(false)}
+              className="text-[#8B8F96] hover:text-white"
+            >
+              <X className="w-5 h-5" />
+            </Button>
           </div>
         </div>
 
@@ -106,7 +98,7 @@ export function VehicleDetailModal({ vehicle, open, onOpenChange }: VehicleDetai
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
             <div>
               <p className="text-sm text-[#8B8F96] mb-1">Price</p>
-              <p className="text-3xl md:text-4xl font-bold text-white">
+              <p className={`text-3xl md:text-4xl font-bold ${vehicle.price === 0 ? 'text-[#C6A969]' : 'text-white'}`}>
                 {formatPrice(vehicle.price)}
               </p>
             </div>
@@ -143,7 +135,7 @@ export function VehicleDetailModal({ vehicle, open, onOpenChange }: VehicleDetai
           {/* Specifications */}
           <div className="mb-8">
             <h3 className="text-lg font-semibold text-white mb-4">Specifications</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               {specs.map((spec, index) => (
                 <div
                   key={index}

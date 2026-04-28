@@ -2,8 +2,8 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Shield, Award, Clock, Users, MapPin, Phone, Mail } from "lucide-react";
-import { contactInfo, teamMembers } from "@/lib/data";
+import { Shield, Award, Clock, Users, MapPin, Phone, Mail, CheckCircle } from "lucide-react";
+import { contactInfo } from "@/lib/data";
 
 export function AboutSection() {
   return (
@@ -18,11 +18,11 @@ export function AboutSection() {
             About Us
           </Badge>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
-            East Africa&apos;s Premium Choice
+            Mighty Rides
           </h2>
           <p className="text-[#8B8F96] text-lg max-w-2xl mx-auto">
-            For over 15 years, Mighty Rides has been setting the standard for 
-            premium automotive excellence in East Africa.
+            A premium automotive dealership based in Kampala, Uganda, serving East Africa 
+            with quality vehicles and professional services.
           </p>
         </div>
 
@@ -34,18 +34,18 @@ export function AboutSection() {
             </h3>
             <div className="space-y-4 text-[#8B8F96] leading-relaxed">
               <p>
-                Founded with a vision to bring world-class automotive services to East Africa, 
-                Mighty Rides has grown from a small dealership to the region&apos;s most trusted 
-                name in premium vehicles.
+                Mighty Rides is a premium automotive dealership located in Kampala, Uganda. 
+                We specialize in luxury vehicle sales, premium car rentals, and comprehensive 
+                automotive services.
               </p>
               <p>
-                Our commitment to excellence extends beyond just selling cars. We believe in 
-                building lasting relationships with our clients, understanding their unique needs, 
-                and delivering experiences that exceed expectations.
+                Our commitment to quality and customer satisfaction drives everything we do. 
+                From helping you find the perfect vehicle to providing expert maintenance 
+                services, we are your trusted automotive partner in East Africa.
               </p>
               <p>
-                Today, we serve a distinguished clientele including business leaders, diplomats, 
-                and discerning individuals who demand nothing but the best.
+                We offer a curated selection of imported and local vehicles, along with 
+                vehicle sourcing services to help you find exactly what you&apos;re looking for.
               </p>
             </div>
           </div>
@@ -53,10 +53,10 @@ export function AboutSection() {
           {/* Values */}
           <div className="grid grid-cols-2 gap-4">
             {[
-              { icon: Shield, title: "Trust", description: "Built on integrity and transparency" },
-              { icon: Award, title: "Excellence", description: "Premium quality in everything" },
-              { icon: Clock, title: "Reliability", description: "Consistent, dependable service" },
-              { icon: Users, title: "Relationship", description: "Long-term client partnerships" },
+              { icon: Shield, title: "Trust", description: "Transparent transactions" },
+              { icon: Award, title: "Quality", description: "Premium vehicles & service" },
+              { icon: Clock, title: "Reliability", description: "Dependable support" },
+              { icon: Users, title: "Client Focus", description: "Your satisfaction first" },
             ].map((value, index) => (
               <Card key={index} className="bg-[#1A1C1F] border-border">
                 <CardContent className="p-6">
@@ -69,11 +69,35 @@ export function AboutSection() {
           </div>
         </div>
 
+        {/* What We Offer */}
+        <div className="bg-[#1A1C1F] rounded-2xl border border-border overflow-hidden mb-20">
+          <div className="p-8 md:p-12">
+            <h3 className="text-xl md:text-2xl font-bold text-white mb-8 text-center">
+              What We Offer
+            </h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[
+                "Luxury vehicle sales",
+                "Premium car rentals",
+                "Vehicle servicing & maintenance",
+                "Spare parts",
+                "Body kits & customization",
+                "Vehicle sourcing services",
+              ].map((item, index) => (
+                <div key={index} className="flex items-center gap-3 p-4 rounded-lg bg-[#0F0F10]">
+                  <CheckCircle className="w-5 h-5 text-[#C6A969] shrink-0" />
+                  <span className="text-white">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* Quick Contact */}
         <div className="bg-[#1A1C1F] rounded-2xl border border-border overflow-hidden">
           <div className="p-8 md:p-12">
             <h3 className="text-xl md:text-2xl font-bold text-white mb-8">
-              Visit Our Showroom
+              Visit Our Location
             </h3>
             
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">

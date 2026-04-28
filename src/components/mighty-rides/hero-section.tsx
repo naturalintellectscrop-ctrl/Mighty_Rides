@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Play, ChevronDown } from "lucide-react";
+import { ChevronDown, ArrowRight, Play } from "lucide-react";
 import { contactInfo } from "@/lib/data";
 
 interface HeroSectionProps {
@@ -30,7 +30,7 @@ export function HeroSection({ onViewChange }: HeroSectionProps) {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#1A1C1F] border border-[#C6A969]/20 mb-8 animate-fade-up">
             <span className="w-2 h-2 rounded-full bg-[#C6A969] animate-pulse" />
-            <span className="text-sm text-[#8B8F96]">East Africa&apos;s Premium Automotive Dealership</span>
+            <span className="text-sm text-[#8B8F96]">Premium Automotive Dealership in East Africa</span>
           </div>
 
           {/* Main Headline */}
@@ -42,8 +42,8 @@ export function HeroSection({ onViewChange }: HeroSectionProps) {
 
           {/* Subheadline */}
           <p className="text-lg sm:text-xl text-[#8B8F96] max-w-2xl mx-auto mb-10 leading-relaxed animate-fade-up stagger-2">
-            Experience luxury automotive excellence. From curated vehicle sales to premium rentals, 
-            servicing, and bespoke sourcing — your journey to the extraordinary begins here.
+            Luxury vehicle sales, premium rentals, servicing, and vehicle sourcing. 
+            Your trusted automotive partner in Kampala, Uganda.
           </p>
 
           {/* CTA Buttons */}
@@ -52,7 +52,7 @@ export function HeroSection({ onViewChange }: HeroSectionProps) {
               onClick={() => onViewChange("inventory")}
               className="bg-[#C6A969] text-[#0F0F10] hover:bg-[#D4B87A] font-semibold px-8 py-6 text-base group"
             >
-              <span>Explore Inventory</span>
+              <span>View Vehicles</span>
               <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button
@@ -65,16 +65,15 @@ export function HeroSection({ onViewChange }: HeroSectionProps) {
             </Button>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10 animate-fade-up stagger-4">
+          {/* Trust Indicators */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-10 animate-fade-up stagger-4">
             {[
-              { value: "500+", label: "Vehicles Sold" },
-              { value: "15+", label: "Years Experience" },
-              { value: "100%", label: "Client Satisfaction" },
-              { value: "24/7", label: "Support" },
+              { value: "Luxury", label: "Vehicle Sales" },
+              { value: "Premium", label: "Car Rentals" },
+              { value: "Expert", label: "Servicing & Parts" },
             ].map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#C6A969] mb-1">
                   {stat.value}
                 </div>
                 <div className="text-xs sm:text-sm text-[#8B8F96] uppercase tracking-wider">
