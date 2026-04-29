@@ -317,14 +317,15 @@ export const services: Service[] = [
 ];
 
 // ============================================
-// BLOG POSTS (EXAMPLE CONTENT)
+// BLOG POSTS (AUTHORITY CONTENT ENGINE)
+// Expert guides, maintenance advice, ownership insights
 // ============================================
 export const blogPosts: BlogPost[] = [
   {
     id: "b1",
-    title: "Choosing the Right Luxury Vehicle in Uganda",
-    slug: "choosing-luxury-vehicle-uganda",
-    excerpt: "Key considerations when selecting a premium vehicle for Ugandan roads and conditions.",
+    title: "Complete Guide to Buying a Luxury Vehicle in Uganda",
+    slug: "complete-guide-luxury-vehicle-uganda",
+    excerpt: "Everything you need to know about purchasing a premium vehicle in Uganda - from inspection tips to documentation requirements.",
     content: "Full article content here...",
     category: "Buying Guide",
     featuredImage: "",
@@ -333,9 +334,9 @@ export const blogPosts: BlogPost[] = [
   },
   {
     id: "b2",
-    title: "Maintaining Your Vehicle: Essential Tips",
-    slug: "vehicle-maintenance-tips",
-    excerpt: "Practical maintenance tips to keep your vehicle performing at its best.",
+    title: "Essential Maintenance Tips for Premium Vehicles",
+    slug: "essential-maintenance-premium-vehicles",
+    excerpt: "Keep your luxury vehicle in optimal condition with these expert maintenance recommendations tailored for Ugandan conditions.",
     content: "Full article content here...",
     category: "Maintenance",
     featuredImage: "",
@@ -344,14 +345,69 @@ export const blogPosts: BlogPost[] = [
   },
   {
     id: "b3",
-    title: "Understanding Vehicle Imports in Uganda",
-    slug: "vehicle-imports-guide",
-    excerpt: "What you need to know about importing vehicles into Uganda.",
+    title: "Understanding Vehicle Imports: A Ugandan Buyer's Guide",
+    slug: "vehicle-imports-uganda-guide",
+    excerpt: "Navigate the vehicle import process with confidence. Learn about documentation, taxes, and what to expect.",
     content: "Full article content here...",
     category: "Imports",
     featuredImage: "",
     author: "Mighty Rides Team",
     publishedAt: "2024-01-05",
+  },
+  {
+    id: "b4",
+    title: "SUV vs Sedan: Which is Right for Ugandan Roads?",
+    slug: "suv-vs-sedan-uganda",
+    excerpt: "A practical comparison to help you choose between SUVs and sedans based on your driving needs and local conditions.",
+    content: "Full article content here...",
+    category: "Buying Guide",
+    featuredImage: "",
+    author: "Mighty Rides Team",
+    publishedAt: "2024-01-01",
+  },
+  {
+    id: "b5",
+    title: "Premium Car Care: Interior and Exterior Detailing",
+    slug: "premium-car-care-detailing",
+    excerpt: "Professional tips for maintaining your vehicle's appearance and protecting your investment.",
+    content: "Full article content here...",
+    category: "Premium Ownership",
+    featuredImage: "",
+    author: "Mighty Rides Team",
+    publishedAt: "2023-12-28",
+  },
+  {
+    id: "b6",
+    title: "Wedding Car Rentals: Planning Your Perfect Day",
+    slug: "wedding-car-rentals-guide",
+    excerpt: "How to choose and book the perfect wedding vehicle for your special occasion.",
+    content: "Full article content here...",
+    category: "Rental Insights",
+    featuredImage: "",
+    author: "Mighty Rides Team",
+    publishedAt: "2023-12-20",
+  },
+  {
+    id: "b7",
+    title: "Financing Options for Luxury Vehicle Purchases",
+    slug: "financing-luxury-vehicles-uganda",
+    excerpt: "Explore financing options and payment structures for premium vehicle purchases in Uganda.",
+    content: "Full article content here...",
+    category: "Buying Guide",
+    featuredImage: "",
+    author: "Mighty Rides Team",
+    publishedAt: "2023-12-15",
+  },
+  {
+    id: "b8",
+    title: "Long-term Rentals: A Flexible Mobility Solution",
+    slug: "long-term-rentals-business",
+    excerpt: "Why long-term vehicle rentals make sense for businesses and individuals seeking flexibility.",
+    content: "Full article content here...",
+    category: "Rental Insights",
+    featuredImage: "",
+    author: "Mighty Rides Team",
+    publishedAt: "2023-12-10",
   },
 ];
 

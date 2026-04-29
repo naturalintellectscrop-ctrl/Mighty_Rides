@@ -1,4 +1,5 @@
-// Mighty Rides - Premium Automotive Dealership Database Schema
+// Mighty Rides - Premium Automotive Digital Business System Schema
+// Option 3 Upgrade - Enhanced Business Logic, Trust Systems, Lead Systems
 
 generator client {
   provider = "prisma-client-js"
@@ -9,7 +10,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Vehicle Inventory (Cars for Sale)
+// ============================================
+// VEHICLE INVENTORY
+// ============================================
 model Vehicle {
   id            String   @id @default(cuid())
   make          String
@@ -27,13 +30,17 @@ model Vehicle {
   features      String?  // JSON string of features
   images        String?  // JSON string of image URLs
   isFeatured    Boolean  @default(false)
+  isPremium     Boolean  @default(false) // Premium inventory flag for Concierge
   isSold        Boolean  @default(false)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   inquiries     VehicleInquiry[]
+  conciergeRequests ConciergeRequest[]
 }
 
-// Rental Vehicles
+// ============================================
+// RENTAL VEHICLES
+// ============================================
 model RentalVehicle {
   id            String   @id @default(cuid())
   name          String
@@ -53,42 +60,117 @@ model RentalVehicle {
   inquiries     RentalInquiry[]
 }
 
-// Vehicle Inquiry (Sales)
+// ============================================
+// PRIVATE BUYER CONCIERGE SYSTEM (NEW)
+// Premium guided inquiry flow for high-intent buyers
+// ============================================
+model ConciergeRequest {
+  id              String   @id @default(cuid())
+  vehicleId       String?
+  vehicle         Vehicle? @relation(fields: [vehicleId], references: [id])
+  
+  // Contact Info
+  name            String
+  email           String
+  phone           String
+  preferredContact String  // "Phone", "Email", "WhatsApp"
+  
+  // Premium Buyer Intake
+  requestType     String   // "Private Viewing", "Advisor Consultation", "Concierge Purchase"
+  preferredVehicle String? // If not tied to specific vehicle
+  purchaseTimeline String   // "Immediate", "1-2 weeks", "1-3 months", "3+ months", "Just exploring"
+  budgetRange     String   // "Under $50k", "$50k-$100k", "$100k-$200k", "$200k-$500k", "$500k+"
+  financingPreference String? // "Cash", "Finance", "Lease", "Open to options"
+  tradeInConsideration Boolean @default(false)
+  
+  // Additional Context
+  message         String?
+  
+  // Status Tracking
+  status          String   @default("New") // "New", "Contacted", "Viewing Scheduled", "In Progress", "Completed", "Closed"
+  priority        String   @default("Standard") // "Standard", "Premium", "VIP"
+  
+  // Conversion Intelligence
+  source          String?  // "Website", "WhatsApp", "Phone", "Referral"
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+// ============================================
+// UPGRADED VEHICLE INQUIRY (Enhanced Lead Qualification)
+// ============================================
 model VehicleInquiry {
   id              String   @id @default(cuid())
   vehicleId       String
   vehicle         Vehicle  @relation(fields: [vehicleId], references: [id])
+  
+  // Contact Info
   name            String
   email           String
   phone           String
   preferredContact String? // "Phone", "Email", "WhatsApp"
+  
+  // Enhanced Lead Qualification Fields
+  inquiryType     String   // "Purchase Inquiry", "Test Drive", "Price Request", "General Question"
+  budgetRange     String?  // "Under $50k", "$50k-$100k", "$100k-$200k", "$200k+"
+  timeline        String?  // "Immediate", "1-2 weeks", "1-3 months", "Just exploring"
+  purchasePurpose String?  // "Personal Use", "Business", "Family", "Investment"
+  
   message         String?
   status          String   @default("New") // "New", "Contacted", "Viewing Scheduled", "Closed"
+  
+  // Conversion Intelligence
+  source          String?  // "Website", "WhatsApp", "Phone"
+  
   createdAt       DateTime @default(now())
 }
 
-// Rental Inquiry
+// ============================================
+// UPGRADED RENTAL INQUIRY (Occasion-Based)
+// ============================================
 model RentalInquiry {
   id              String   @id @default(cuid())
   rentalId        String
   rental          RentalVehicle @relation(fields: [rentalId], references: [id])
+  
+  // Contact Info
   name            String
   email           String
   phone           String
-  occasion        String?  // Wedding, Corporate, Airport, etc.
+  preferredContact String? // "Phone", "Email", "WhatsApp"
+  
+  // Occasion-Based Fields
+  occasion        String   // "Wedding", "Airport Transfer", "Executive Transport", "VIP Movement", "Event", "Long-term Rental", "Other"
   startDate       String?
   endDate         String?
+  duration        String?  // "Hours", "Days", "Weeks", "Months"
+  passengerCount  Int?
+  driverOption    String?  // "With Driver", "Self Drive"
+  
+  // Enhanced Context
+  eventDetails    String?  // Wedding venue, event type, special requirements
   message         String?
+  
   status          String   @default("New")
+  source          String?
+  
   createdAt       DateTime @default(now())
 }
 
-// Car Sourcing Request
+// ============================================
+// VEHICLE SOURCING ENGINE (Upgraded)
+// ============================================
 model SourcingRequest {
   id              String   @id @default(cuid())
+  
+  // Contact Info
   name            String
   email           String
   phone           String
+  preferredContact String?
+  
+  // Vehicle Preferences (Enhanced)
   preferredMake   String?
   preferredModel  String?
   yearFrom        Int?
@@ -96,14 +178,22 @@ model SourcingRequest {
   budgetMin       Int?
   budgetMax       Int?
   preferredColor  String?
-  condition       String?
-  timeline        String?
+  condition       String?  // "New", "Used", "Certified Pre-Owned", "Any"
+  
+  // Additional Requirements
+  urgency         String?  // "Immediate", "1-3 months", "3-6 months", "Flexible"
+  additionalFeatures String? // JSON string of specific features
+  
   message         String?
-  status          String   @default("New")
+  status          String   @default("New") // "New", "Searching", "Options Available", "In Progress", "Completed", "Closed"
+  source          String?
+  
   createdAt       DateTime @default(now())
 }
 
-// Service Inquiry
+// ============================================
+// SERVICE INQUIRY (Enhanced)
+// ============================================
 model ServiceInquiry {
   id              String   @id @default(cuid())
   name            String
@@ -111,12 +201,104 @@ model ServiceInquiry {
   phone           String
   serviceType     String   // "Servicing", "Maintenance", "Customization", "Detailing", "Spare Parts", "Inspection"
   vehicleInfo     String?
+  urgency         String?  // "Urgent", "Within a week", "Within a month", "Flexible"
+  preferredContact String?
   message         String?
   status          String   @default("New")
+  source          String?
   createdAt       DateTime @default(now())
 }
 
-// General Contact
+// ============================================
+// CORPORATE MOBILITY DESK (NEW - B2B)
+// ============================================
+model CorporateInquiry {
+  id              String   @id @default(cuid())
+  
+  // Company Info
+  companyName     String
+  contactPerson   String
+  email           String
+  phone           String
+  industry        String?  // "Corporate", "Embassy", "NGO", "Government", "Hospitality", "Other"
+  
+  // Service Request
+  serviceType     String   // "Executive Transport", "Long-term Corporate Rental", "Fleet Request", "Recurring Transport", "VIP Mobility"
+  vehiclePreference String?
+  duration        String?  // "One-time", "Monthly", "Quarterly", "Annual", "Ongoing"
+  passengerCount  Int?
+  
+  // Requirements
+  requirements    String?  // JSON string of specific needs
+  message         String?
+  
+  status          String   @default("New") // "New", "Contacted", "Proposal Sent", "In Progress", "Completed"
+  source          String?
+  
+  createdAt       DateTime @default(now())
+}
+
+// ============================================
+// TRADE-IN / UPGRADE FLOW (NEW)
+// ============================================
+model TradeInRequest {
+  id              String   @id @default(cuid())
+  
+  // Contact Info
+  name            String
+  email           String
+  phone           String
+  preferredContact String?
+  
+  // Current Vehicle
+  currentMake     String
+  currentModel    String
+  currentYear     Int
+  currentMileage  Int?
+  currentCondition String  // "Excellent", "Good", "Fair", "Poor"
+  currentPhotos   String?  // JSON string of image URLs
+  
+  // Desired Upgrade
+  desiredMake     String?
+  desiredModel    String?
+  budgetTopUp     String?  // Budget range for upgrade
+  financingNeeded Boolean  @default(false)
+  
+  message         String?
+  status          String   @default("New") // "New", "Under Review", "Valuation Complete", "Offer Made", "Completed"
+  source          String?
+  
+  createdAt       DateTime @default(now())
+}
+
+// ============================================
+// AFTER-SALE SUPPORT (NEW - Retention Layer)
+// ============================================
+model AfterSaleRequest {
+  id              String   @id @default(cuid())
+  
+  // Customer Info
+  name            String
+  email           String
+  phone           String
+  vehiclePurchased String? // Vehicle ID or description
+  
+  // Support Type
+  requestType     String   // "Book Service", "Request Parts", "Maintenance Support", "Ownership Assistance", "General Inquiry"
+  urgency         String?  // "Urgent", "Standard", "Scheduled"
+  preferredDate   String?
+  preferredTime   String?
+  
+  message         String?
+  status          String   @default("New") // "New", "Scheduled", "In Progress", "Completed"
+  source          String?
+  
+  createdAt       DateTime @default(now())
+}
+
+// ============================================
+// GENERAL CONTACT
+// ============================================
 model ContactMessage {
   id              String   @id @default(cuid())
   name            String
@@ -125,10 +307,13 @@ model ContactMessage {
   subject         String?
   message         String
   status          String   @default("New")
+  source          String?
   createdAt       DateTime @default(now())
 }
 
-// Testimonials
+// ============================================
+// TESTIMONIALS
+// ============================================
 model Testimonial {
   id              String   @id @default(cuid())
   name            String
@@ -142,23 +327,29 @@ model Testimonial {
   createdAt       DateTime @default(now())
 }
 
-// Blog Posts
+// ============================================
+// BLOG POSTS (Authority Content Engine)
+// ============================================
 model BlogPost {
   id              String   @id @default(cuid())
   title           String
   slug            String   @unique
   excerpt         String?
   content         String
-  category        String   // "Buying Guide", "Maintenance", "Premium Ownership", "Imports", "Rental Insights"
+  category        String   // "Buying Guide", "Maintenance", "Premium Ownership", "Imports", "Rental Insights", "Industry News"
+  tags            String?  // JSON string of tags
   featuredImage   String?
   author          String?
   isPublished     Boolean  @default(true)
+  isFeatured      Boolean  @default(false)
   publishedAt     DateTime @default(now())
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
 
-// Services
+// ============================================
+// SERVICES
+// ============================================
 model Service {
   id              String   @id @default(cuid())
   title           String
@@ -172,7 +363,9 @@ model Service {
   updatedAt       DateTime @updatedAt
 }
 
-// Team Members
+// ============================================
+// TEAM MEMBERS
+// ============================================
 model TeamMember {
   id              String   @id @default(cuid())
   name            String
@@ -180,5 +373,43 @@ model TeamMember {
   bio             String?
   image           String?
   order           Int      @default(0)
+  createdAt       DateTime @default(now())
+}
+
+// ============================================
+// CONVERSION INTELLIGENCE (NEW)
+// Track what actually converts
+// ============================================
+model ConversionEvent {
+  id              String   @id @default(cuid())
+  eventType       String   // "CTA Click", "WhatsApp Click", "Form Submit", "Phone Click", "Concierge Request", "Sourcing Submit", "Corporate Inquiry", "Trade-in Request"
+  category        String?  // "Sales", "Rental", "Sourcing", "Service", "Corporate", "Trade-in"
+  source          String?  // Page or component where event occurred
+  metadata        String?  // JSON string of additional data
+  sessionId       String?  // To track user sessions
+  createdAt       DateTime @default(now())
+}
+
+// ============================================
+// VEHICLE VIEWING APPOINTMENT (NEW)
+// For scheduling private viewings
+// ============================================
+model ViewingAppointment {
+  id              String   @id @default(cuid())
+  vehicleId       String?
+  conciergeRequestId String?
+  
+  name            String
+  email           String
+  phone           String
+  
+  preferredDate   String
+  preferredTime   String
+  alternateDate   String?
+  alternateTime   String?
+  
+  message         String?
+  status          String   @default("Requested") // "Requested", "Confirmed", "Completed", "Cancelled", "No-show"
+  
   createdAt       DateTime @default(now())
 }

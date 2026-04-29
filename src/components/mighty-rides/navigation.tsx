@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Phone, X } from "lucide-react";
+import { Menu, Phone, X, ChevronDown, Crown, Building2, ArrowRightLeft } from "lucide-react";
 import { contactInfo } from "@/lib/data";
 
 interface NavigationProps {
@@ -21,9 +21,16 @@ const navItems = [
   { id: "contact", label: "Contact" },
 ];
 
+const premiumServices = [
+  { id: "concierge", label: "Private Buyer Concierge", icon: Crown, description: "Premium guided buying" },
+  { id: "corporate", label: "Corporate Mobility", icon: Building2, description: "B2B solutions" },
+  { id: "trade-in", label: "Trade-In / Upgrade", icon: ArrowRightLeft, description: "Upgrade your vehicle" },
+];
+
 export function Navigation({ currentView, onViewChange }: NavigationProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showPremiumMenu, setShowPremiumMenu] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,6 +43,7 @@ export function Navigation({ currentView, onViewChange }: NavigationProps) {
   const handleNavClick = (viewId: string) => {
     onViewChange(viewId);
     setIsMobileMenuOpen(false);
+    setShowPremiumMenu(false);
   };
 
   return (
@@ -84,6 +92,48 @@ export function Navigation({ currentView, onViewChange }: NavigationProps) {
                 {item.label}
               </button>
             ))}
+            
+            {/* Premium Services Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setShowPremiumMenu(!showPremiumMenu)}
+                className={`flex items-center gap-1 px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg ${
+                  ["concierge", "corporate", "trade-in", "after-sale"].includes(currentView)
+                    ? "text-[#C6A969] bg-[#C6A969]/10"
+                    : "text-white/80 hover:text-white hover:bg-white/5"
+                }`}
+              >
+                <Crown className="w-4 h-4" />
+                Premium
+                <ChevronDown className={`w-4 h-4 transition-transform ${showPremiumMenu ? "rotate-180" : ""}`} />
+              </button>
+              
+              {showPremiumMenu && (
+                <div className="absolute top-full right-0 mt-2 w-64 bg-[#1A1C1F] border border-border rounded-lg shadow-xl overflow-hidden">
+                  {premiumServices.map((service) => (
+                    <button
+                      key={service.id}
+                      onClick={() => handleNavClick(service.id)}
+                      className="w-full flex items-start gap-3 px-4 py-3 hover:bg-white/5 transition-colors text-left"
+                    >
+                      <service.icon className="w-5 h-5 text-[#C6A969] mt-0.5" />
+                      <div>
+                        <p className="text-sm font-medium text-white">{service.label}</p>
+                        <p className="text-xs text-[#8B8F96]">{service.description}</p>
+                      </div>
+                    </button>
+                  ))}
+                  <div className="border-t border-border">
+                    <button
+                      onClick={() => handleNavClick("after-sale")}
+                      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-colors text-left"
+                    >
+                      <span className="text-sm text-[#8B8F96]">After-Sale Support →</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </nav>
 
           {/* CTA Buttons */}
@@ -134,7 +184,7 @@ export function Navigation({ currentView, onViewChange }: NavigationProps) {
                 </div>
 
                 {/* Mobile Navigation */}
-                <nav className="flex-1 p-6">
+                <nav className="flex-1 p-6 overflow-y-auto">
                   <div className="space-y-2">
                     {navItems.map((item) => (
                       <button
@@ -149,6 +199,29 @@ export function Navigation({ currentView, onViewChange }: NavigationProps) {
                         {item.label}
                       </button>
                     ))}
+                  </div>
+                  
+                  {/* Premium Services */}
+                  <div className="mt-6 pt-6 border-t border-border">
+                    <p className="text-xs uppercase tracking-wider text-[#8B8F96] mb-3 px-4">Premium Services</p>
+                    <div className="space-y-2">
+                      {premiumServices.map((service) => (
+                        <button
+                          key={service.id}
+                          onClick={() => handleNavClick(service.id)}
+                          className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium text-white/80 hover:text-white hover:bg-white/5 transition-all"
+                        >
+                          <service.icon className="w-5 h-5 text-[#C6A969]" />
+                          {service.label}
+                        </button>
+                      ))}
+                      <button
+                        onClick={() => handleNavClick("after-sale")}
+                        className="w-full text-left px-4 py-3 rounded-lg text-base font-medium text-white/80 hover:text-white hover:bg-white/5 transition-all"
+                      >
+                        After-Sale Support
+                      </button>
+                    </div>
                   </div>
                 </nav>
 
@@ -183,6 +256,14 @@ export function Navigation({ currentView, onViewChange }: NavigationProps) {
           </Sheet>
         </div>
       </div>
+      
+      {/* Click outside to close premium menu */}
+      {showPremiumMenu && (
+        <div 
+          className="fixed inset-0 z-[-1]" 
+          onClick={() => setShowPremiumMenu(false)}
+        />
+      )}
     </header>
   );
 }

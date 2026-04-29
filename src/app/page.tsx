@@ -10,14 +10,19 @@ import { TestimonialsSection } from "@/components/mighty-rides/testimonials-sect
 import { AboutSection } from "@/components/mighty-rides/about-section";
 import { ContactSection } from "@/components/mighty-rides/contact-section";
 import { InventoryView } from "@/components/mighty-rides/inventory-view";
-import { VehicleDetailModal } from "@/components/mighty-rides/vehicle-detail-modal";
-import { RentalsView } from "@/components/mighty-rides/rentals-view";
+import { VehicleDetailModalUpgraded } from "@/components/mighty-rides/vehicle-detail-modal-upgraded";
+import { RentalsViewUpgraded } from "@/components/mighty-rides/rentals-view-upgraded";
 import { RentalDetailModal } from "@/components/mighty-rides/rental-detail-modal";
 import { ServicesView } from "@/components/mighty-rides/services-view";
-import { SourcingView } from "@/components/mighty-rides/sourcing-view";
+import { SourcingView } from "@/components/mighty-rides/sourcing-view-upgraded";
 import { AboutView } from "@/components/mighty-rides/about-view";
 import { BlogView } from "@/components/mighty-rides/blog-view";
 import { BlogArticleView } from "@/components/mighty-rides/blog-article-view";
+import { ConciergeView } from "@/components/mighty-rides/concierge-view";
+import { CorporateView } from "@/components/mighty-rides/corporate-view";
+import { TradeInView } from "@/components/mighty-rides/trade-in-view";
+import { AfterSaleView } from "@/components/mighty-rides/after-sale-view";
+import { TrustSection } from "@/components/mighty-rides/trust-section";
 import { Footer } from "@/components/mighty-rides/footer";
 import { Vehicle, RentalVehicle, blogPosts } from "@/lib/data";
 
@@ -53,6 +58,23 @@ export default function Home() {
     setCurrentView("blog-article");
   };
 
+  // Track page views for conversion intelligence
+  useEffect(() => {
+    if (currentView !== "home") {
+      fetch("/api/conversion", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          eventType: "Page View",
+          category: "Navigation",
+          source: currentView,
+        }),
+      }).catch(() => {
+        // Silently fail tracking
+      });
+    }
+  }, [currentView]);
+
   // Render different views based on currentView state
   const renderView = () => {
     switch (currentView) {
@@ -65,7 +87,7 @@ export default function Home() {
         );
       case "rentals":
         return (
-          <RentalsView
+          <RentalsViewUpgraded
             onBack={() => setCurrentView("home")}
             onRentalSelect={handleRentalSelect}
           />
@@ -97,11 +119,22 @@ export default function Home() {
             <ContactSection />
           </div>
         );
+      case "concierge":
+        return <ConciergeView onBack={() => setCurrentView("home")} />;
+      case "corporate":
+        return <CorporateView onBack={() => setCurrentView("home")} />;
+      case "trade-in":
+        return <TradeInView onBack={() => setCurrentView("home")} />;
+      case "after-sale":
+        return <AfterSaleView onBack={() => setCurrentView("home")} />;
       default:
         return (
           <>
             {/* Hero Section */}
             <HeroSection onViewChange={handleViewChange} />
+
+            {/* Trust Section - NEW */}
+            <TrustSection />
 
             {/* Featured Inventory */}
             <FeaturedInventory
@@ -170,8 +203,8 @@ export default function Home() {
       {/* Footer */}
       <Footer />
 
-      {/* Vehicle Detail Modal */}
-      <VehicleDetailModal
+      {/* Vehicle Detail Modal - Upgraded with Concierge */}
+      <VehicleDetailModalUpgraded
         vehicle={selectedVehicle}
         open={isVehicleModalOpen}
         onOpenChange={setIsVehicleModalOpen}
